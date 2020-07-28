@@ -1,5 +1,5 @@
 $ErrorActionPreference="stop"
-$PSModulePath = if([Environment]::OSVersion.Platform -eq "unix"){
+$PSModulePath = if([Environment]::OSVersion.Platform -eq "Unix"){
     $env:PSModulePath -split ":"
 }else{
     $env:PSModulePath -split ";"
