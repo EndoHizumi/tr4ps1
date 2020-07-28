@@ -1,10 +1,14 @@
 $ErrorActionPreference="stop"
+trap{
+    write-host -ForegroundColor Red "`r`ninstall failed.`r`nfinish install modules.`r`n"
+    break
+}
 $PSModulePath = if([Environment]::OSVersion.Platform -eq "Unix"){
     $env:PSModulePath -split ":"
 }else{
     $env:PSModulePath -split ";"
 }
-Write-Host "install modules"
+Write-Host "`r`nbegin install modules"
 Write-Host "ModulePath: $($PSModulePath[0])`r`n"
 $module_path = (Join-Path $PSModulePath[0] "\TimeRecordeeer\")
 if (-not (Test-Path $module_path)) {
@@ -30,5 +34,6 @@ if (-Not (Test-Path $profile)){
 if (-Not @(Get-Content $profile).Contains($importString)){
    $importString | Out-File -FilePath $profile -Encoding utf8
 }
-write-host "install successed.`r`n"
+write-host "`r`n install successed.`r`n"
+write-host "finish install modules.`r`n"
 get-module | format-table
