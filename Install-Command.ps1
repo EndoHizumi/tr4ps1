@@ -34,6 +34,6 @@ if (-Not (Test-Path $profile)){
 if (-Not @(Get-Content $profile).Contains($importString)){
    $importString | Out-File -FilePath $profile -Encoding utf8
 }
-write-host "`r`n install successed.`r`n"
+write-host "`r`ninstall successed.`r`n"
 write-host "finish install modules.`r`n"
 get-module | format-table
