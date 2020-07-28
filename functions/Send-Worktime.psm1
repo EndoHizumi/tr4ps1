@@ -1,6 +1,6 @@
 
 function Send-WorkTime([String] $state) {
-    . "./freee.ps1"
+    . "${PSScriptRoot}\freee.ps1"
     $freee = [freee]::new()
     $freee.emboss($state)
 }

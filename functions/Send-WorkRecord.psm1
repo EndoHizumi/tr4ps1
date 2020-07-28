@@ -1,6 +1,6 @@
 function Send-WorkRecord([String] $date) {
-    Import-Module "./functions/Read-WorkTime.psm1"
-    . "./functions/freee.ps1"
+    Import-Module "${PSScriptRoot}\Read-WorkTime.psm1"
+    . "${PSScriptRoot}\freee.ps1"
     $freee = [freee]::new()
 
     $attendanceDate = (Read-WorkTime $date)[1].item($date)

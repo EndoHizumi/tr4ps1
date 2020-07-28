@@ -9,7 +9,7 @@ class freee {
     $employee_id = ""
 
     freee() {
-        $config = ConvertFrom-Json (gc "config.json" -raw)
+        $config = ConvertFrom-Json (gc "${PSScriptRoot}\config.json" -raw)
         if ($config.access_token) {
             $this.header["Authorization"] = "Bearer $($config.access_token)"
             $user_info = $this.me()

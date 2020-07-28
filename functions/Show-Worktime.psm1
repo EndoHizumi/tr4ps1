@@ -10,8 +10,8 @@ function Show-WorkTime {
 
 
     param([String] $target_date = "*")
-    Import-Module "./functions/Read-WorkTime.psm1"
-    $attendance_set =  Read-WorkTime $target_date
+    Import-Module "${PSScriptRoot}\Read-WorkTime.psm1"
+    $attendance_set =  (Read-WorkTime $target_date)[0].item($target_date)
     if ($attendance_set.Count -eq 0) {
         return
     }
