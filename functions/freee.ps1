@@ -9,7 +9,7 @@ class freee {
     $employee_id = ""
 
     freee() {
-        $config = ConvertFrom-Json (gc "config.json" -raw)
+        $config = ConvertFrom-Json (gc "${PSScriptRoot}\config.json" -raw)
         if ($config.access_token) {
             $this.header["Authorization"] = "Bearer $($config.access_token)"
             $user_info = $this.me()
@@ -39,12 +39,33 @@ class freee {
         return $res        
     }
 
+    [PSCustomObject] WriteAttendance([String] $work_begin, [String] $break_begin, [String] $break_end, [String] $work_end){
+        $today = $(get-date -Format "yyyy-MM-dd")
+        $body = @{
+            "company_id" = $this.company_id
+            "break_records" = @(@{
+                "clock_in_at" = $break_begin
+                "clock_out_at" = $break_end
+            })
+            "clock_in_at" = $work_begin
+            "clock_out_at" = $work_end
+        }
+
+        $url = "https://api.freee.co.jp/hr/api/v1/employees/$($this.employee_id)/work_records/{$today}"
+        $res = $this.put($url, $body)
+        return $res          
+    }
+
     [PSCustomObject] get([String] $url) {
         return $this.sendRequest("GET", $url, @{}, @{})
     }
 
     [PSCustomObject] post([String] $url, $body) {
         return $this.sendRequest("POST", $url, @{}, $body)
+    }
+
+    [PSCustomObject] put([String] $url, $body) {
+        return $this.sendRequest("PUT", $url, @{}, $body)
     }
 
     [PSCustomObject] sendRequest($method, [String] $url, [System.Object] $headers, [System.Object] $body) {
